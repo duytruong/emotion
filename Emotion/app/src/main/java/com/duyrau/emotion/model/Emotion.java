@@ -7,6 +7,10 @@ public class Emotion {
     private String name;
     private Integer imageId;
 
+    public Emotion(Integer imageId) {
+        this.imageId = imageId;
+    }
+
     public String getName() {
         return name;
     }

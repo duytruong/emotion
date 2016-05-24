@@ -1,13 +1,11 @@
 package com.duyrau.emotion.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.duyrau.emotion.R;
 import com.duyrau.emotion.model.Emotion;
@@ -48,16 +46,14 @@ public class EmotionAdapter extends BaseAdapter {
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.grid_item_champion, parent, false);
+            view = inflater.inflate(R.layout.list_item_emotion_group, parent, false);
         } else {
             view = convertView;
         }
-        ImageView imgView = (ImageView) view.findViewById(R.id.image_champion_avatar);
-        TextView txtName = (TextView) view.findViewById(R.id.txt_champion_name);
-//        imgView.setImageResource(mObjects.get(position).getImageId());
-        Bitmap bmp = loadBitmapPiece(position);
-        imgView.setImageBitmap(bmp);
-        txtName.setText(mObjects.get(position).getName());
+//        TextView txtName = (TextView) view.findViewById(R.id.txt_champion_name);
+//        txtName.setText(mObjects.get(position).getName());
+        ImageView imgView = (ImageView) view.findViewById(R.id.list_item_emotion_group_imageview);
+        imgView.setImageResource(mData.get(position).getImageId());
         return view;
     }
 }
