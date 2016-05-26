@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView emotionGroupsListView;
     private GridView emotionsGridView;
     private EmotionItemAdapter emotionItemAdapter;
+    private EmotionGroupAdapter emotionGroupAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +47,13 @@ public class MainActivity extends AppCompatActivity {
         emotionGroups.add(new EmotionGroup(R.drawable.food));
         emotionGroups.add(new EmotionGroup(R.drawable.soccer));
 
-        emotionItemAdapter = new EmotionItemAdapter(this, items);
-        emotionGroupsListView.setAdapter(new EmotionGroupAdapter(this, emotionGroups));
+        emotionGroupAdapter = new EmotionGroupAdapter(this, emotionGroups);
+        emotionGroupsListView.setAdapter(emotionGroupAdapter);
         emotionGroupsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                emotionItemAdapter = new EmotionItemAdapter(getApplicationContext(),
+                        ((EmotionGroup)emotionGroupAdapter.getItem(position)).getItems());
                 emotionsGridView.setAdapter(emotionItemAdapter);
             }
         });

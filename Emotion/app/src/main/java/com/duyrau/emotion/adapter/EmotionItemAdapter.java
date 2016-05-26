@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.duyrau.emotion.R;
 import com.duyrau.emotion.model.EmotionItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,14 +19,25 @@ import java.util.List;
 public class EmotionItemAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<EmotionItem> mData;
+    private List<EmotionItem> mData = new ArrayList<>();
 
     public EmotionItemAdapter(Context c, List<EmotionItem> emotionItems) {
         mContext = c;
-        mData = emotionItems;
+        setmData(emotionItems);
+    }
+
+    public List<EmotionItem> getmData() {
+        return mData;
+    }
+
+    public void setmData(List<EmotionItem> mData) {
+        if (mData != null) {
+            this.mData = mData;
+        }
     }
 
     @Override
+
     public int getCount() {
         return mData.size();
     }
