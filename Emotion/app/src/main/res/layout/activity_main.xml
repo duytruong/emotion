@@ -9,22 +9,33 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="horizontal"
-    tools:context="com.duyrau.emotion.MainActivity">
+    tools:context="com.duyrau.emotion.MainActivity"
+    android:baselineAligned="false">
 
     <LinearLayout
         android:id="@+id/container_emotions"
-        android:layout_weight="1"
+        android:layout_weight="3"
         android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent">
+
+        <GridView
+            android:id="@+id/gridview_emotions"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="10dp"
+            android:horizontalSpacing="10dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/container_emotion_groups"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent">
 
         <ListView

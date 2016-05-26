@@ -8,22 +8,22 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.duyrau.emotion.R;
-import com.duyrau.emotion.model.Emotion;
+import com.duyrau.emotion.model.EmotionItem;
 
 import java.util.List;
 
 /**
- * Created by duyrau on 22/5/2016.
+ * Created by dj81hc on 5/26/2016.
  */
-public class EmotionAdapter extends BaseAdapter {
+public class EmotionItemAdapter extends BaseAdapter {
+
     private Context mContext;
-    private List<Emotion> mData;
+    private List<EmotionItem> mData;
 
-    public EmotionAdapter(Context c, List<Emotion> emotions) {
+    public EmotionItemAdapter(Context c, List<EmotionItem> emotionItems) {
         mContext = c;
-        mData = emotions;
+        mData = emotionItems;
     }
-
 
     @Override
     public int getCount() {
@@ -46,13 +46,11 @@ public class EmotionAdapter extends BaseAdapter {
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.list_item_emotion_group, parent, false);
+            view = inflater.inflate(R.layout.grid_item_emotion, parent, false);
         } else {
             view = convertView;
         }
-//        TextView txtName = (TextView) view.findViewById(R.id.txt_champion_name);
-//        txtName.setText(mObjects.get(position).getName());
-        ImageView imgView = (ImageView) view.findViewById(R.id.list_item_emotion_group_imageview);
+        ImageView imgView = (ImageView) view.findViewById(R.id.grid_item_emotion_imageview);
         imgView.setImageResource(mData.get(position).getImageId());
         return view;
     }

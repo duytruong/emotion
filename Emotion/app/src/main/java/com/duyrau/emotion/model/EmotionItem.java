@@ -1,13 +1,14 @@
 package com.duyrau.emotion.model;
 
 /**
- * Created by duyrau on 22/5/2016.
+ * Created by dj81hc on 5/26/2016.
  */
-public class Emotion {
+public class EmotionItem {
+
     private String name;
     private Integer imageId;
 
-    public Emotion(Integer imageId) {
+    public EmotionItem(Integer imageId) {
         this.imageId = imageId;
     }
 
