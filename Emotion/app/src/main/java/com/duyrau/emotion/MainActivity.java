@@ -1,11 +1,9 @@
 package com.duyrau.emotion;
 
+import android.content.res.Configuration;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -21,61 +19,84 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView emotionGroupsListView;
-    private GridView emotionsGridView;
+    private ListView emotionGroupListView;
+    private GridView emotionItemGridView;
     private EmotionItemAdapter emotionItemAdapter;
     private EmotionGroupAdapter emotionGroupAdapter;
     private MediaPlayer mediaPlayer;
+
+    private int[] emotionIds = {R.drawable.happy, R.drawable.sad};
+    private int[] foodIds = {R.drawable.chicken, R.drawable.noodle};
+
+    private long groupIdx = 0;
+    private long itemIdx = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        emotionGroupsListView = (ListView)findViewById(R.id.listView);
-        emotionsGridView = (GridView)findViewById(R.id.gridview_emotions);
+        emotionGroupListView = (ListView)findViewById(R.id.listView);
+        emotionItemGridView = (GridView)findViewById(R.id.gridview_emotions);
 
         emotionGroupAdapter = new EmotionGroupAdapter(this, createEmotionGroups());
-        emotionGroupsListView.setAdapter(emotionGroupAdapter);
-        emotionGroupsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        emotionGroupListView.setAdapter(emotionGroupAdapter);
+        emotionGroupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                groupIdx = id;
                 emotionItemAdapter = new EmotionItemAdapter(getApplicationContext(),
                         ((EmotionGroup)emotionGroupAdapter.getItem(position)).getItems());
-                emotionsGridView.setAdapter(emotionItemAdapter);
+                emotionItemGridView.setAdapter(emotionItemAdapter);
             }
         });
 
-        Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath() + "/audio0.mp3");
-
-        Log.d("A", uri.toString());
-        mediaPlayer = MediaPlayer.create(this, uri);
-        emotionsGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        emotionItemGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mediaPlayer.start();
+                itemIdx = id;
+                int resid = getResources().getIdentifier("e" + groupIdx + "_" + itemIdx,
+                        "raw", view.getContext().getPackageName());
+                if (resid != 0) {
+                    mediaPlayer = MediaPlayer.create(view.getContext(), resid);
+                    mediaPlayer.start();
+                }
             }
         });
     }
 
-    private List<EmotionItem> createEmotionItems() {
+    private List<EmotionItem> createEmotionItems(int size, int[] ids) {
         List<EmotionItem> items = new ArrayList<>();
-        items.add(new EmotionItem(R.drawable.ic_soccer_black_48dp));
-        items.add(new EmotionItem(R.drawable.ic_food_black_48dp));
-        items.add(new EmotionItem(R.drawable.e));
+        for (int i = 0; i < size; i++) {
+            items.add(new EmotionItem(ids[i]));
+        }
         return items;
     }
 
-    private EmotionGroup createEmotionGroupContainsItems(List<EmotionItem> items) {
-        EmotionGroup group = new EmotionGroup(R.drawable.food);
+    private EmotionGroup createEmotionGroupContainsItems(int resId, List<EmotionItem> items) {
+        EmotionGroup group = new EmotionGroup(resId);
         group.setItems(items);
         return group;
     }
 
     private List<EmotionGroup> createEmotionGroups() {
         List<EmotionGroup> groups = new ArrayList<>();
-        groups.add(new EmotionGroup(R.drawable.e));
-        groups.add(createEmotionGroupContainsItems(createEmotionItems()));
-        groups.add(new EmotionGroup(R.drawable.soccer));
+        groups.add(createEmotionGroupContainsItems(R.drawable.emotion, createEmotionItems(2, emotionIds)));
+        groups.add(createEmotionGroupContainsItems(R.drawable.food, createEmotionItems(2, foodIds)));
         return groups;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        emotionItemGridView.setAdapter(emotionItemAdapter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 }

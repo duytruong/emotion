@@ -6,6 +6,7 @@
 
     <ImageView
         android:id="@+id/list_item_emotion_group_imageview"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
