@@ -16,6 +16,7 @@ import com.duyrau.emotion.model.EmotionItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     private long groupIdx = 0;
     private long itemIdx = 0;
+
+    private Stack<Integer> sentence = new Stack<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                     mediaPlayer = MediaPlayer.create(view.getContext(), resid);
                     mediaPlayer.start();
                 }
+                sentence.push(resid);
             }
         });
     }
