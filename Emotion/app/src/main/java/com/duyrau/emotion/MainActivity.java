@@ -3,8 +3,9 @@ package com.duyrau.emotion;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -12,12 +13,10 @@ import android.widget.ListView;
 
 import com.duyrau.emotion.adapter.EmotionGroupAdapter;
 import com.duyrau.emotion.adapter.EmotionItemAdapter;
+import com.duyrau.emotion.adapter.SentenceAdapter;
 import com.duyrau.emotion.model.EmotionGroup;
 import com.duyrau.emotion.model.EmotionItem;
 
-import org.lucasr.twowayview.TwoWayView;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView emotionGroupListView;
     private GridView emotionItemGridView;
-    private TwoWayView sentenceListView;
-
-    private EmotionItemAdapter emotionItemAdapter, sentenceAdapter;
+    private RecyclerView recyclerView;
+    private EmotionItemAdapter emotionItemAdapter;
+    private SentenceAdapter sentenceAdapter;
     private EmotionGroupAdapter emotionGroupAdapter;
     private MediaPlayer mediaPlayer;
 
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         emotionGroupListView = (ListView)findViewById(R.id.listView);
         emotionItemGridView = (GridView)findViewById(R.id.gridview_emotions);
-        sentenceListView  = (TwoWayView)findViewById(R.id.listview_sentence);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview_sentence);
 
         emotionGroupAdapter = new EmotionGroupAdapter(this, createEmotionGroups());
         emotionGroupListView.setAdapter(emotionGroupAdapter);
@@ -75,22 +74,11 @@ public class MainActivity extends AppCompatActivity {
                     mediaPlayer.start();
                 }
                 sentence.add((EmotionItem) emotionItemAdapter.getItem(position));
-                sentenceAdapter = new EmotionItemAdapter(getApplicationContext(), sentence);
-                sentenceListView.setAdapter(sentenceAdapter);
-            }
-        });
-
-        sentenceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                for (int i = 0, len = sentence.size(); i < len; i++) {
-                    try {
-                        mediaPlayer.setDataSource(Environment.getExternalStorageDirectory() +
-                                "/" + sentence.get(i).getName() + ".mp3");
-                        mediaPlayer.prepare();
-                    } catch (IOException e) {
-                    }
-                }
+                sentenceAdapter = new SentenceAdapter(sentence, mediaPlayer);
+                LinearLayoutManager sentenceLayoutManager
+                        = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                recyclerView.setLayoutManager(sentenceLayoutManager);
+                recyclerView.setAdapter(sentenceAdapter);
             }
         });
     }

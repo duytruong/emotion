@@ -18,8 +18,9 @@
 
         <GridView
             android:id="@+id/gridview_emotions"
+            android:layout_weight="3"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:numColumns="auto_fit"
             android:verticalSpacing="10dp"
             android:horizontalSpacing="10dp"
@@ -27,11 +28,16 @@
             android:gravity="center" />
 
         <LinearLayout
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="0dp">
 
-            <Recyc
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_sentence"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
 
