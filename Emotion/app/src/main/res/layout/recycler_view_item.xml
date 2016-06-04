@@ -5,6 +5,8 @@
 
     <ImageView
         android:id="@+id/rv_item_imageview"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

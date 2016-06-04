@@ -20,6 +20,7 @@ import java.util.List;
 public class SentenceAdapter extends RecyclerView.Adapter<SentenceAdapter.MyViewHolder> {
 
     private Context mContext;
+
     private List<EmotionItem> mData;
     private MediaPlayer mPlayer;
 
@@ -27,6 +28,10 @@ public class SentenceAdapter extends RecyclerView.Adapter<SentenceAdapter.MyView
         mContext = c;
         mData = items;
         mPlayer = player;
+    }
+
+    public List<EmotionItem> getmData() {
+        return mData;
     }
 
     public void setmData(List<EmotionItem> mData) {
@@ -40,7 +45,7 @@ public class SentenceAdapter extends RecyclerView.Adapter<SentenceAdapter.MyView
         MyViewHolder viewHolder = new MyViewHolder(itemView);
 
         // each item width of recycler view has a width of one quarter of parent's width.
-        itemView.getLayoutParams().width = parent.getWidth() / 4;
+        itemView.getLayoutParams().width = parent.getWidth() / 6;
 
         return viewHolder;
     }

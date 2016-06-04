@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Emotion</string>
+    <string name="delete_word">Xóa</string>
 </resources>

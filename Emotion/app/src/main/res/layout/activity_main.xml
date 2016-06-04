@@ -9,55 +9,10 @@
     android:baselineAligned="false">
 
     <LinearLayout
-        android:id="@+id/container_emotions"
-        android:layout_weight="4"
-        android:orientation="vertical"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:background="@drawable/background">
-
-        <LinearLayout
-            android:layout_weight="3"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="20dp"
-            android:background="#263238">
-
-            <GridView
-                android:id="@+id/gridview_emotions"
-                android:numColumns="4"
-                android:verticalSpacing="10dp"
-                android:horizontalSpacing="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/activity_vertical_margin"
-                android:stretchMode="columnWidth"
-                android:gravity="center" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:background="#CBE2E7"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerview_sentence"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </android.support.v7.widget.RecyclerView>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/container_emotion_groups"
-        android:background="#40000000"
-        android:layout_weight="1"
-        android:orientation="vertical"
+        android:background="#1976D2"
+        android:layout_weight="1.5"
+        android:orientation="horizontal"
         android:layout_width="0dp"
         android:layout_height="match_parent">
 
@@ -65,6 +20,88 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/listView" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/container_emotions"
+        android:layout_weight="8.5"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/background">
+
+        <LinearLayout
+            android:layout_weight="3"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#263238">
+
+            <GridView
+                android:id="@+id/gridview_emotions"
+                android:numColumns="4"
+                android:verticalSpacing="10dp"
+                android:horizontalSpacing="10dp"
+                android:layout_weight="7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:stretchMode="columnWidth"
+                android:gravity="center" />
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_about"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@drawable/about"/>
+
+                <Button
+                    android:id="@+id/btn_open_trainer_mode"
+                    android:layout_weight="3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@drawable/next"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="0dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_sentence"
+                android:layout_weight="7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btn_delete_word"
+                    android:background="#E64A19"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/delete_word"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
