@@ -47,15 +47,15 @@ public class MainActivity extends AppCompatActivity {
     private String[] nhanvatItemsName = {"gapai_ongba", "gapai_ba", "gapai_me", "gapai_thaygiao"};
     private int[] gapaiAudio = {R.raw.gapai_ongba, R.raw.gapai_ba, R.raw.gapai_me, R.raw.gapai_thaygiao};
 
-    private int[] hanhdongIds = {R.drawable.hanhdong_an, R.drawable.hanhdong_boi, R.drawable.hanhdong_dabanh, R.drawable.hanhdong_danhrang,
+    private int[] hanhdongIds = {R.drawable.hanhdong_an, R.drawable.hanhdong_xedap, R.drawable.hanhdong_boi, R.drawable.hanhdong_dabanh, R.drawable.hanhdong_danhrang,
             R.drawable.hanhdong_dichoi, R.drawable.hanhdong_divesinh, R.drawable.hanhdong_ngu, R.drawable.hanhdong_ruamat, R.drawable.hanhdong_ruatay,
-            R.drawable.hanhdong_tam, R.drawable.hanhdong_thayquanao, R.drawable.hanhdong_uong, R.drawable.hanhdong_xedap};
+            R.drawable.hanhdong_tam, R.drawable.hanhdong_thayquanao, R.drawable.hanhdong_uong};
     private String[] hanhdongItemsName = {"hanhdong_an", "hanhdong_boi", "hanhdong_dabanh", "hanhdong_danhrang",
             "hanhdong_dichoi", "hanhdong_divesinh", "hanhdong_ngu", "hanhdong_ruamat", "hanhdong_ruatay", "hanhdong_tam",
             "hanhdong_thayquanao", "hanhdong_uong", "hanhdong_xedap"};
-    private int[] hanhdongAudio = {R.raw.hanhdong_an, R.raw.hanhdong_boi, R.raw.hanhdong_dabanh, R.raw.hanhdong_danhrang,
+    private int[] hanhdongAudio = {R.raw.hanhdong_an, R.raw.hanhdong_xedap, R.raw.hanhdong_boi, R.raw.hanhdong_dabanh, R.raw.hanhdong_danhrang,
             R.raw.hanhdong_dichoi, R.raw.hanhdong_divesinh, R.raw.hanhdong_ngu, R.raw.hanhdong_ruamat, R.raw.hanhdong_ruatay,
-            R.raw.hanhdong_tam, R.raw.hanhdong_thayquanao, R.raw.hanhdong_uong, R.raw.hanhdong_xedap};
+            R.raw.hanhdong_tam, R.raw.hanhdong_thayquanao, R.raw.hanhdong_uong};
 
     private List<EmotionItem> sentence = new ArrayList<>();
 
