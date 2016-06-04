@@ -28,17 +28,29 @@ public class MainActivity extends AppCompatActivity {
     private EmotionItemAdapter emotionItemAdapter;
     private SentenceAdapter sentenceAdapter;
     private EmotionGroupAdapter emotionGroupAdapter;
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer, sentencePlayer;
 
     private int[] emotionIds = {R.drawable.happy, R.drawable.sad};
-    private int[] foodIds = {R.drawable.chicken, R.drawable.noodle};
+    private int[] foodIds = {R.drawable.thucan_banh, R.drawable.thucan_banhmi, R.drawable.thucan_ca, R.drawable.thucan_com,
+        R.drawable.thucan_kem, R.drawable.thucan_kfc, R.drawable.thucan_nho, R.drawable.thucan_pho, R.drawable.thucan_pizza,
+        R.drawable.thucan_tao, R.drawable.thucan_traicay, R.drawable.thucan_trung};
     private String[] emotionItemsName = {"emotion_happy", "emotion_sad"};
-    private String[] foodItemsName = {"food_chicken", "food_noodle"};
+    private String[] foodItemsName = {"thucan_banh", "thucan_banhmi", "thucan_ca", "thucan_com", "thucan_kem",
+        "thucan_kfc", "thucan_nho", "thucan_pho", "thucan_pizza", "thucan_tao","thucan_traicay","thucan_trung"};
     private int[] emotionItemsAudio = {R.raw.emotion_happy, R.raw.emotion_sad};
-    private int[] foodItemsAudio = {R.raw.food_chicken, R.raw.food_noodle};
+    private int[] foodItemsAudio = {R.raw.thucan_banh, R.raw.thucan_banhmi, R.raw.thucan_ca, R.raw.thucan_com,
+        R.raw.thucan_kem, R.raw.thucan_kfc, R.raw.thucan_nho, R.raw.thucan_pho, R.raw.thucan_pizza,
+        R.raw.thucan_tao, R.raw.thucan_traicay, R.raw.thucan_trung};
 
-    private long groupIdx = 0;
-    private long itemIdx = 0;
+    private int[] nhanvatIds = {R.drawable.gapai_ongba, R.drawable.gapai_ba,
+            R.drawable.gapai_me, R.drawable.gapai_thaygiao};
+    private String[] nhanvatItemsName = {"gapai_ongba", "gapai_ba", "gapai_me", "gapai_thaygiao"};
+    private int[] gapaiAudio = {R.raw.gapai_ongba, R.raw.gapai_ba, R.raw.gapai_me, R.raw.gapai_thaygiao};
+
+    private int[] hanhdongIds = {R.drawable.hanhdong_boi, R.drawable.hanhdong_dichoi, R.drawable.hanhdong_divesinh, R.drawable.hanhdong_dabanh, R.drawable.hanhdong_ngu};
+    private String[] hanhdongItemsName = {"hanhdong_boi", "hanhdong_dichoi", "hanhdong_divesinh", "hanhdong_dabanh", "hanhdong_ngu"};
+    private int[] hanhdongAudio = {R.raw.hanhdong_boi, R.raw.hanhdong_dichoi, R.raw.hanhdong_divesinh,
+        R.raw.hanhdong_dabanh, R.raw.hanhdong_ngu};
 
     private List<EmotionItem> sentence = new ArrayList<>();
 
@@ -50,13 +62,18 @@ public class MainActivity extends AppCompatActivity {
         emotionGroupListView = (ListView)findViewById(R.id.listView);
         emotionItemGridView = (GridView)findViewById(R.id.gridview_emotions);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_sentence);
+        LinearLayoutManager sentenceLayoutManager
+                = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(sentenceLayoutManager);
+
+        sentenceAdapter = new SentenceAdapter(this, new ArrayList<EmotionItem>(), sentencePlayer);
+        recyclerView.setAdapter(sentenceAdapter);
 
         emotionGroupAdapter = new EmotionGroupAdapter(this, createEmotionGroups());
         emotionGroupListView.setAdapter(emotionGroupAdapter);
         emotionGroupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                groupIdx = id;
                 emotionItemAdapter = new EmotionItemAdapter(getApplicationContext(),
                         ((EmotionGroup)emotionGroupAdapter.getItem(position)).getItems());
                 emotionItemGridView.setAdapter(emotionItemAdapter);
@@ -66,19 +83,16 @@ public class MainActivity extends AppCompatActivity {
         emotionItemGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                itemIdx = id;
-                int resid = getResources().getIdentifier("e" + groupIdx + "_" + itemIdx,
-                        "raw", view.getContext().getPackageName());
-                if (resid != 0) {
-                    mediaPlayer = MediaPlayer.create(view.getContext(), resid);
-                    mediaPlayer.start();
-                }
+//                int resid = getResources().getIdentifier("e" + groupIdx + "_" + itemIdx,
+//                        "raw", view.getContext().getPackageName());
+                mediaPlayer = MediaPlayer.create(view.getContext(),
+                        ((EmotionItem)emotionItemAdapter.getItem(position)).getAudioId());
+                mediaPlayer.start();
+
                 sentence.add((EmotionItem) emotionItemAdapter.getItem(position));
-                sentenceAdapter = new SentenceAdapter(sentence, mediaPlayer);
-                LinearLayoutManager sentenceLayoutManager
-                        = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
-                recyclerView.setLayoutManager(sentenceLayoutManager);
-                recyclerView.setAdapter(sentenceAdapter);
+                sentenceAdapter.setmData(sentence);
+                sentenceAdapter.notifyDataSetChanged();
+
             }
         });
     }
@@ -99,10 +113,14 @@ public class MainActivity extends AppCompatActivity {
 
     private List<EmotionGroup> createEmotionGroups() {
         List<EmotionGroup> groups = new ArrayList<>();
-        groups.add(createEmotionGroupContainsItems(R.drawable.emotion, createEmotionItems(2,
+        groups.add(createEmotionGroupContainsItems(R.drawable.emotion, createEmotionItems(emotionItemsName.length,
                 emotionItemsName, emotionIds, emotionItemsAudio)));
-        groups.add(createEmotionGroupContainsItems(R.drawable.food, createEmotionItems(2,
-                foodItemsName, foodIds, emotionItemsAudio)));
+        groups.add(createEmotionGroupContainsItems(R.drawable.thucan, createEmotionItems(foodItemsName.length,
+                foodItemsName, foodIds, foodItemsAudio)));
+        groups.add(createEmotionGroupContainsItems(R.drawable.gapai, createEmotionItems(nhanvatItemsName.length,
+                nhanvatItemsName, nhanvatIds, gapaiAudio)));
+        groups.add(createEmotionGroupContainsItems(R.drawable.hanhdong, createEmotionItems(hanhdongItemsName.length,
+                hanhdongItemsName, hanhdongIds, hanhdongAudio)));
         return groups;
     }
 
@@ -119,6 +137,11 @@ public class MainActivity extends AppCompatActivity {
             mediaPlayer.release();
             mediaPlayer = null;
         }
+
+//        if (sentencePlayer != null) {
+//            sentencePlayer.release();
+//            sentencePlayer = null;
+//        }
     }
 
 
