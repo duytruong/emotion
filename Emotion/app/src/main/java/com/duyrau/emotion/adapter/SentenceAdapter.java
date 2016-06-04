@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.duyrau.emotion.R;
-import com.duyrau.emotion.listener.MediaCompletionListener;
 import com.duyrau.emotion.model.EmotionItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,29 +49,17 @@ public class SentenceAdapter extends RecyclerView.Adapter<SentenceAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.imgView.setImageResource(mData.get(position).getImageId());
 
-        final int[] audios = new int[mData.size()];
+        final List<Integer> playlist = new ArrayList<>();
         for (int i = 0, len = mData.size(); i < len; i++) {
-            audios[i] = mData.get(i).getAudioId();
+            playlist.add(mData.get(i).getAudioId());
         }
 
 
         holder.imgView.setOnClickListener(new View.OnClickListener() {
 
-            int idx = 0;
-
             @Override
             public void onClick(View v) {
-
-                if (mPlayer != null) {
-                    mPlayer.release();
-                    mPlayer = null;
-                }
-//                        mPlayer.setDataSource(Environment.getExternalStorageDirectory() + "/" + mData.get(i).getName() + ".mp3");
-
-                mPlayer = MediaPlayer.create(v.getContext(), audios[idx]);
-                mPlayer.start();
-                mPlayer.setOnCompletionListener(new MediaCompletionListener(mContext, mPlayer));
-
+                playListOfAudioSequentially(mContext, playlist);
             }
         });
 
@@ -89,6 +77,47 @@ public class SentenceAdapter extends RecyclerView.Adapter<SentenceAdapter.MyView
             super(view);
             imgView = (ImageView) view.findViewById(R.id.rv_item_imageview);
 
+        }
+    }
+
+    void playListOfAudioSequentially(Context c, List<Integer> playlist) {
+        play(c, playlist);
+    }
+
+    private void play(final Context c, List<Integer> playlist) {
+        stop();
+        if (playlist != null && playlist.size() > 0) {
+            final List<Integer> pList = new ArrayList<>(playlist);
+
+            int audioId = pList.get(0);
+            pList.remove(0);
+
+            mPlayer = MediaPlayer.create(c, audioId);
+
+            mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    if (mp == mPlayer) {
+                        mPlayer.start();
+                    }
+                }
+            });
+
+            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    stop();
+                    // Recursively call the play() method with one less
+                    // track in the list.
+                    play(c, pList);
+                }
+            });
+        }
+    }
+
+    private void stop() {
+        if (mPlayer != null) {
+            mPlayer.stop();
         }
     }
 }

@@ -30,14 +30,14 @@ public class MainActivity extends AppCompatActivity {
     private EmotionGroupAdapter emotionGroupAdapter;
     private MediaPlayer mediaPlayer, sentencePlayer;
 
-    private int[] emotionIds = {R.drawable.happy, R.drawable.sad};
+    private int[] emotionIds = {R.drawable.camgiac_vui, R.drawable.camgiac_buon};
     private int[] foodIds = {R.drawable.thucan_banh, R.drawable.thucan_banhmi, R.drawable.thucan_ca, R.drawable.thucan_com,
         R.drawable.thucan_kem, R.drawable.thucan_kfc, R.drawable.thucan_nho, R.drawable.thucan_pho, R.drawable.thucan_pizza,
         R.drawable.thucan_tao, R.drawable.thucan_traicay, R.drawable.thucan_trung};
-    private String[] emotionItemsName = {"emotion_happy", "emotion_sad"};
+    private String[] emotionItemsName = {"camgiac_vui", "camgiac_buon"};
     private String[] foodItemsName = {"thucan_banh", "thucan_banhmi", "thucan_ca", "thucan_com", "thucan_kem",
         "thucan_kfc", "thucan_nho", "thucan_pho", "thucan_pizza", "thucan_tao","thucan_traicay","thucan_trung"};
-    private int[] emotionItemsAudio = {R.raw.emotion_happy, R.raw.emotion_sad};
+    private int[] emotionItemsAudio = {R.raw.camxuc_vui, R.raw.camxuc_buon};
     private int[] foodItemsAudio = {R.raw.thucan_banh, R.raw.thucan_banhmi, R.raw.thucan_ca, R.raw.thucan_com,
         R.raw.thucan_kem, R.raw.thucan_kfc, R.raw.thucan_nho, R.raw.thucan_pho, R.raw.thucan_pizza,
         R.raw.thucan_tao, R.raw.thucan_traicay, R.raw.thucan_trung};
@@ -47,10 +47,15 @@ public class MainActivity extends AppCompatActivity {
     private String[] nhanvatItemsName = {"gapai_ongba", "gapai_ba", "gapai_me", "gapai_thaygiao"};
     private int[] gapaiAudio = {R.raw.gapai_ongba, R.raw.gapai_ba, R.raw.gapai_me, R.raw.gapai_thaygiao};
 
-    private int[] hanhdongIds = {R.drawable.hanhdong_boi, R.drawable.hanhdong_dichoi, R.drawable.hanhdong_divesinh, R.drawable.hanhdong_dabanh, R.drawable.hanhdong_ngu};
-    private String[] hanhdongItemsName = {"hanhdong_boi", "hanhdong_dichoi", "hanhdong_divesinh", "hanhdong_dabanh", "hanhdong_ngu"};
-    private int[] hanhdongAudio = {R.raw.hanhdong_boi, R.raw.hanhdong_dichoi, R.raw.hanhdong_divesinh,
-        R.raw.hanhdong_dabanh, R.raw.hanhdong_ngu};
+    private int[] hanhdongIds = {R.drawable.hanhdong_an, R.drawable.hanhdong_boi, R.drawable.hanhdong_dabanh, R.drawable.hanhdong_danhrang,
+            R.drawable.hanhdong_dichoi, R.drawable.hanhdong_divesinh, R.drawable.hanhdong_ngu, R.drawable.hanhdong_ruamat, R.drawable.hanhdong_ruatay,
+            R.drawable.hanhdong_tam, R.drawable.hanhdong_thayquanao, R.drawable.hanhdong_uong, R.drawable.hanhdong_xedap};
+    private String[] hanhdongItemsName = {"hanhdong_an", "hanhdong_boi", "hanhdong_dabanh", "hanhdong_danhrang",
+            "hanhdong_dichoi", "hanhdong_divesinh", "hanhdong_ngu", "hanhdong_ruamat", "hanhdong_ruatay", "hanhdong_tam",
+            "hanhdong_thayquanao", "hanhdong_uong", "hanhdong_xedap"};
+    private int[] hanhdongAudio = {R.raw.hanhdong_an, R.raw.hanhdong_boi, R.raw.hanhdong_dabanh, R.raw.hanhdong_danhrang,
+            R.raw.hanhdong_dichoi, R.raw.hanhdong_divesinh, R.raw.hanhdong_ngu, R.raw.hanhdong_ruamat, R.raw.hanhdong_ruatay,
+            R.raw.hanhdong_tam, R.raw.hanhdong_thayquanao, R.raw.hanhdong_uong, R.raw.hanhdong_xedap};
 
     private List<EmotionItem> sentence = new ArrayList<>();
 
@@ -113,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
     private List<EmotionGroup> createEmotionGroups() {
         List<EmotionGroup> groups = new ArrayList<>();
-        groups.add(createEmotionGroupContainsItems(R.drawable.emotion, createEmotionItems(emotionItemsName.length,
+        groups.add(createEmotionGroupContainsItems(R.drawable.camxuc, createEmotionItems(emotionItemsName.length,
                 emotionItemsName, emotionIds, emotionItemsAudio)));
         groups.add(createEmotionGroupContainsItems(R.drawable.thucan, createEmotionItems(foodItemsName.length,
                 foodItemsName, foodIds, foodItemsAudio)));
