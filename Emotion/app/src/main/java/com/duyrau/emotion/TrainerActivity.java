@@ -1,12 +1,13 @@
 package com.duyrau.emotion;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -22,18 +23,16 @@ import com.duyrau.emotion.model.EmotionItem;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by duyrau on 5/6/2016.
- */
-public class MainActivity extends AppCompatActivity {
+public class TrainerActivity extends AppCompatActivity {
 
     private ListView emotionGroupListView;
     private GridView emotionItemGridView;
+    private RecyclerView recyclerView;
     private EmotionItemAdapter emotionItemAdapter;
     private SentenceAdapter sentenceAdapter;
     private EmotionGroupAdapter emotionGroupAdapter;
     private MediaPlayer mediaPlayer, sentencePlayer;
-    private Button btnAbout, btnOpenTrainerMode;
+    private Button btnDeleteWord, btnAbout, btnBack;
 
     private int[] emotionIds = {R.drawable.camxuc_vui, R.drawable.camxuc_buon, R.drawable.camxuc_buonngu, R.drawable.camxuc_dau, R.drawable.camxuc_doi, R.drawable.camxuc_khat, R.drawable.camxuc_khoc,
             R.drawable.camxuc_khongthich, R.drawable.camxuc_muon, R.drawable.camxuc_so, R.drawable.camxuc_thich};
@@ -43,13 +42,13 @@ public class MainActivity extends AppCompatActivity {
             R.raw.camxuc_khongthich, R.raw.camxuc_muon, R.raw.camxuc_so, R.raw.camxuc_thich};
 
     private int[] foodIds = {R.drawable.thucan_banh, R.drawable.thucan_banhmi, R.drawable.thucan_ca, R.drawable.thucan_com,
-            R.drawable.thucan_kem, R.drawable.thucan_kfc, R.drawable.thucan_nho, R.drawable.thucan_pho, R.drawable.thucan_pizza,
-            R.drawable.thucan_tao, R.drawable.thucan_traicay, R.drawable.thucan_trung};
+        R.drawable.thucan_kem, R.drawable.thucan_kfc, R.drawable.thucan_nho, R.drawable.thucan_pho, R.drawable.thucan_pizza,
+        R.drawable.thucan_tao, R.drawable.thucan_traicay, R.drawable.thucan_trung};
     private String[] foodItemsName = {"thucan_banh", "thucan_banhmi", "thucan_ca", "thucan_com", "thucan_kem",
-            "thucan_kfc", "thucan_nho", "thucan_pho", "thucan_pizza", "thucan_tao","thucan_traicay","thucan_trung"};
+        "thucan_kfc", "thucan_nho", "thucan_pho", "thucan_pizza", "thucan_tao","thucan_traicay","thucan_trung"};
     private int[] foodItemsAudio = {R.raw.thucan_banh, R.raw.thucan_banhmi, R.raw.thucan_ca, R.raw.thucan_com,
-            R.raw.thucan_kem, R.raw.thucan_kfc, R.raw.thucan_nho, R.raw.thucan_pho, R.raw.thucan_pizza,
-            R.raw.thucan_tao, R.raw.thucan_traicay, R.raw.thucan_trung};
+        R.raw.thucan_kem, R.raw.thucan_kfc, R.raw.thucan_nho, R.raw.thucan_pho, R.raw.thucan_pizza,
+        R.raw.thucan_tao, R.raw.thucan_traicay, R.raw.thucan_trung};
 
     private int[] nhanvatIds = {R.drawable.gapai_con, R.drawable.gapai_ongba, R.drawable.gapai_bacsi, R.drawable.gapai_anhchi, R.drawable.gapai_cogiao, R.drawable.gapai_me, R.drawable.gapai_ba,
             R.drawable.gapai_embe, R.drawable.gapai_thaygiao};
@@ -90,14 +89,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_trainer);
 
         emotionGroupListView = (ListView)findViewById(R.id.listView);
         emotionItemGridView = (GridView)findViewById(R.id.gridview_emotions);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview_sentence);
+        btnDeleteWord = (Button) findViewById(R.id.btn_delete_word);
         btnAbout = (Button) findViewById(R.id.btn_about);
-        btnOpenTrainerMode = (Button) findViewById(R.id.btn_open_trainer_mode);
+        btnBack = (Button) findViewById(R.id.btn_back_to_main);
+
+        LinearLayoutManager sentenceLayoutManager
+                = new LinearLayoutManager(TrainerActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(sentenceLayoutManager);
 
         sentenceAdapter = new SentenceAdapter(this, new ArrayList<EmotionItem>(), sentencePlayer);
+        recyclerView.setAdapter(sentenceAdapter);
 
         emotionGroupAdapter = new EmotionGroupAdapter(this, createEmotionGroups());
 
@@ -115,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
         emotionItemGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                int resid = getResources().getIdentifier("e" + groupIdx + "_" + itemIdx,
+//                        "raw", view.getContext().getPackageName());
                 mediaPlayer = MediaPlayer.create(view.getContext(),
                         ((EmotionItem)emotionItemAdapter.getItem(position)).getAudioId());
                 mediaPlayer.start();
@@ -126,11 +134,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnOpenTrainerMode.setOnClickListener(new View.OnClickListener() {
+        btnDeleteWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TrainerActivity.class);
-                startActivity(intent);
+                List<EmotionItem> sentenceItems = sentenceAdapter.getmData();
+                if (sentenceItems != null && sentenceItems.size() > 0) {
+                    sentenceItems.remove(sentenceItems.size() - 1);
+                    sentenceAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        btnDeleteWord.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                List<EmotionItem> sentenceItems = sentenceAdapter.getmData();
+                if (sentenceItems != null) {
+                    sentenceItems.clear();
+                    sentenceAdapter.notifyDataSetChanged();
+                }
+                return true;
             }
         });
 
@@ -138,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                        MainActivity.this);
+                        TrainerActivity.this);
 
                 // set title
                 alertDialogBuilder.setTitle("Về ứng dụng nguồn mở \"I'm\"");
@@ -149,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
                                 "Ngày phát triển: 5/6/2016\n" +
                                 "Được phát triển bởi: Nhóm 1 - Tikkun Olam Makers Vietnam 2016\n" +
                                 "Nhằm mục đích hỗ trợ trẻ tự kỷ Việt Nam trong việc giao tiếp. \n" +
-                                "Nguồn hình ảnh: Thư viện ảnh PAXT tại website: concuame.com và hình ảnh miễn phí tại www.iconfinder.com\n" +
+                                "Nguồn hình ảnh: Thư viện ảnh PAXT tại website: concuame.com\n" +
                                 "Email góp ý: ducduytruong2012@gmail.com")
                         .setCancelable(false)
                         .setPositiveButton("Đóng",new DialogInterface.OnClickListener() {
@@ -218,4 +248,5 @@ public class MainActivity extends AppCompatActivity {
             mediaPlayer = null;
         }
     }
+
 }

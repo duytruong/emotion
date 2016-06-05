@@ -52,7 +52,7 @@
                 android:gravity="center" />
 
             <LinearLayout
-                android:layout_weight="1"
+                android:layout_weight="1.04"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -65,11 +65,46 @@
                     android:background="@drawable/about"/>
 
                 <Button
-                    android:id="@+id/btn_open_trainer_mode"
+                    android:id="@+id/btn_back_to_main"
                     android:layout_weight="3"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:background="@drawable/next"/>
+                    android:background="@drawable/back"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="0dp">
+
+            <LinearLayout
+                android:layout_weight="7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_sentence"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btn_delete_word"
+                    android:background="#E64A19"
+                    android:textSize="32sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/delete_word"/>
 
             </LinearLayout>
 
